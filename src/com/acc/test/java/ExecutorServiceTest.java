@@ -22,6 +22,7 @@ package com.acc.test.java;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadFactory;
 
 public class ExecutorServiceTest {
 	public static void excute(ExecutorService executorService, int excuteSize) {
@@ -33,7 +34,7 @@ public class ExecutorServiceTest {
 					@Override
 					public void run() {
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(100);
 							System.out.println("success:" + index);
 						} catch (InterruptedException interruptedException) {
 							System.out.println("InterruptedException:" + index);
@@ -45,7 +46,7 @@ public class ExecutorServiceTest {
 			}
 		}
 		try {
-			Thread.sleep(10);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 		}
 	}
@@ -68,7 +69,7 @@ public class ExecutorServiceTest {
 		} else {
 			shutdown(executorService);
 		}
-		excute(executorService, size);
+		excute(executorService, 2);
 	}
 
 	private static void testShutdown(ExecutorService executorService, int size) {
@@ -85,33 +86,58 @@ public class ExecutorServiceTest {
 		int testNum = new java.util.Scanner(System.in).nextInt();
 		switch (testNum) {
 		case 1:
-			testShutdown(Executors.newCachedThreadPool(), 5);
-			break;
-		case 2:
-			testShutdownnow(Executors.newCachedThreadPool(), 5);
-			break;
-		case 3:
-			testShutdownnow(Executors.newCachedThreadPool(), 1000);
-			break;
-		case 4:
-			testShutdownnow(Executors.newFixedThreadPool(10), 1000);
-			break;
-		case 5:
 			testShutdownnow(Executors.newSingleThreadExecutor(), 5);
 			break;
+		case 2:
+			testShutdownnow(Executors.newSingleThreadExecutor(), 100);
+			break;
+		case 3:
+			testShutdown(Executors.newSingleThreadExecutor(), 5);
+			break;
+		case 4:
+			testShutdown(Executors.newSingleThreadExecutor(), 100);
+			break;
+		case 5:
+			excute(Executors.newSingleThreadExecutor(), 10000);
+			break;
 		case 6:
-			testShutdownnow(Executors.newFixedThreadPool(10), 1000);
+			testShutdownnow(Executors.newFixedThreadPool(3), 5);
 			break;
 		case 7:
-			testShutdownnow(Executors.newFixedThreadPool(10), 1000);
+			testShutdownnow(Executors.newFixedThreadPool(3), 100);
 			break;
 		case 8:
-			testShutdownnow(Executors.newFixedThreadPool(1), 1000);
+			testShutdown(Executors.newFixedThreadPool(3), 5);
 			break;
 		case 9:
-			testShutdownnow(Executors.newSingleThreadExecutor(), 1000);
+			testShutdown(Executors.newFixedThreadPool(3), 100);
 			break;
 		case 10:
+			excute(Executors.newFixedThreadPool(3), 10000);
+			break;
+		case 11:
+			testShutdownnow(Executors.newCachedThreadPool(), 5);
+			break;
+		case 12:
+			testShutdownnow(Executors.newCachedThreadPool(), 1000);
+			break;
+		case 13:
+			testShutdown(Executors.newCachedThreadPool(), 5);
+			break;
+		case 14:
+			testShutdown(Executors.newCachedThreadPool(), 100);
+			break;
+		case 15:
+			excute(Executors.newCachedThreadPool(), 1000000);
+			break;
+		case 16:
+			excute(Executors.newCachedThreadPool(new ThreadFactory() {
+
+				@Override
+				public Thread newThread(Runnable r) {
+					return new Thread(r);
+				}
+			}), 1000000);
 			break;
 		}
 	}
