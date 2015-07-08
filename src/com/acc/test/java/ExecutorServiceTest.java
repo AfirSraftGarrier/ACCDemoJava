@@ -45,10 +45,6 @@ public class ExecutorServiceTest {
 				System.out.println("RejectedExecutionException:" + index);
 			}
 		}
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-		}
 	}
 
 	private static void shutdown(ExecutorService executorService) {
@@ -64,6 +60,10 @@ public class ExecutorServiceTest {
 	private static void test(ExecutorService executorService,
 			boolean isShutdownnow, int size) {
 		excute(executorService, size);
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+		}
 		if (isShutdownnow) {
 			shutdownnow(executorService);
 		} else {
