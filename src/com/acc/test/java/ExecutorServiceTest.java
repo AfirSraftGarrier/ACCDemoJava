@@ -25,9 +25,12 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadFactory;
 
 public class ExecutorServiceTest {
+	private static int BEGIN = 0;
+
 	public static void excute(ExecutorService executorService, int excuteSize) {
 		for (int i = 0; i < excuteSize; i++) {
 			final int index = i;
+			final int indexName = BEGIN + index;
 			try {
 				executorService.execute(new Runnable() {
 
@@ -35,16 +38,18 @@ public class ExecutorServiceTest {
 					public void run() {
 						try {
 							Thread.sleep(100);
-							System.out.println("success:" + index);
+							System.out.println("success:" + indexName);
 						} catch (InterruptedException interruptedException) {
-							System.out.println("InterruptedException:" + index);
+							System.out.println("InterruptedException:"
+									+ indexName);
 						}
 					}
 				});
 			} catch (RejectedExecutionException rejectedExecutionException) {
-				System.out.println("RejectedExecutionException:" + index);
+				System.out.println("RejectedExecutionException:" + indexName);
 			}
 		}
+		BEGIN += excuteSize;
 	}
 
 	private static void shutdown(ExecutorService executorService) {
@@ -98,7 +103,7 @@ public class ExecutorServiceTest {
 			testShutdown(Executors.newSingleThreadExecutor(), 100);
 			break;
 		case 5:
-			excute(Executors.newSingleThreadExecutor(), 10000);
+			excute(Executors.newSingleThreadExecutor(), 100);
 			break;
 		case 6:
 			testShutdownnow(Executors.newFixedThreadPool(3), 5);
@@ -113,7 +118,7 @@ public class ExecutorServiceTest {
 			testShutdown(Executors.newFixedThreadPool(3), 100);
 			break;
 		case 10:
-			excute(Executors.newFixedThreadPool(3), 10000);
+			excute(Executors.newFixedThreadPool(3), 100);
 			break;
 		case 11:
 			testShutdownnow(Executors.newCachedThreadPool(), 5);
@@ -128,7 +133,7 @@ public class ExecutorServiceTest {
 			testShutdown(Executors.newCachedThreadPool(), 100);
 			break;
 		case 15:
-			excute(Executors.newCachedThreadPool(), 1000000);
+			excute(Executors.newCachedThreadPool(), 100);
 			break;
 		case 16:
 			excute(Executors.newCachedThreadPool(new ThreadFactory() {
@@ -137,7 +142,7 @@ public class ExecutorServiceTest {
 				public Thread newThread(Runnable r) {
 					return new Thread(r);
 				}
-			}), 1000000);
+			}), 5);
 			break;
 		}
 	}
