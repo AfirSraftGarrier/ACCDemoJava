@@ -41,9 +41,9 @@ public class MethodParamTest {
         System.out.println("After change, string is: " + string);
         StringBuilder stringBuilder = new StringBuilder(string);
         change(stringBuilder);
+        System.out.println("After change, stringBuilder is: " + stringBuilder);
         TestClass testClass = new TestClass();
         testClass.setName("Hi, i'm acc...");
-        System.out.println("Value of testClass is: " + testClass);
         change(testClass);
         System.out.println("After change, testClass's name is: " + testClass.getName());
     }
