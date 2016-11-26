@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.acc.test.java;
+package com.acc.demo.java.pre;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
